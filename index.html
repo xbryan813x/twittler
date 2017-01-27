@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="jquery.js"></script>
+    <script src="data_generator.js"></script>
+    <link rel="stylesheet" href="twittler.css">
+  </head>
+  <body>
+    <h1>___Twittler_Gold___</h1>
+
+    <form>See what people are tweeting!
+      <button type="submit" value="refresh">Refresh</button>
+    </form>
+
+    <script>
+      var $body = $('body');
+
+      var init;
+      var heldInit;
+      var newTweetTime;
+      var single = false;
+
+      }
+      var appendingTweet = function(idx) {
+        var tweet = streams.home[idx];
+        var $tweet = $("<div class='div-" + tweet.user + "'></div>");
+        $tweet.html("<strong class='" + tweet.user + "'>@" + tweet.user + '</strong>: ' + tweet.message + '<br />' + tweet.created_at);
+        $tweet.appendTo($body);
+      }
+      var incomingTweet = function() {
+        newTweetTime = setInterval(function() {
+          for (var idx = heldInit + 1; idx < streams.home.length - 1; idx++) {
+            appendingTweet(idx);
+            heldInit = idx;
+          }
+        }, 3000);
+      }
+      var originalTwe = function() {
+        init = streams.home.length-1;
+        heldInit = init;
+        for ( var idx = 0; idx < init; idx++){
+          appendingTweet(idx);
+        }
+      }
+      var timeline = function(x, y, z) {
+        if (single == false) {
+          $(x).remove();
+          $(y).remove();
+          $(z).remove();
+          clearInterval(newTweetTime);
+          var $button = $("<div class='back'></div>");
+          $button.html("Return to all Tweets");
+          $button.appendTo($body);
+          single = true;
+        }
+      }
+      $(document).ready(function(){
+        originalTwe();
+        incomingTweet();
+
+      }).on('click', ".shawndrost", function() {
+        timeline(".div-sharksforcheap", ".div-mracus", ".div-douglascalhoun");
+      }).on('click', ".sharksforcheap", function() {
+
+        timeline(".div-shawndrost", ".div-mracus", ".div-douglascalhoun");
+      }).on('click', ".mracus", function() {
+        timeline(".div-sharksforcheap", ".div-shawndrost", ".div-douglascalhoun");
+      }).on('click', ".douglascalhoun", function() {
+        timeline(".div-sharksforcheap", ".div-mracus", ".div-shawndrost");
+      }).on('click', ".back", function() {
+        $("div").remove();
+        single = false;
+        originalTwe();
+        incomingTweet();
+      });
+    </script>
+  </body>
+</html>
